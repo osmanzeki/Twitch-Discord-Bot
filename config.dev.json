@@ -1,0 +1,34 @@
+{
+    "cron": "*/1 * * * *",
+    "discord": {
+        "serverId": "",
+        "token": "",
+        "channelID": "",
+        "roleID": ""
+    },
+    "twitch": {
+        "clientId": "",
+        "secret": "",
+        "authToken": "",
+        "channels": [
+            {
+                "channelName": "electrimess",
+                "discordServer": "",
+                "twitch_stream_id": "",
+                "discord_message_id": ""
+            },
+            {
+                "channelName": "ozeki_san",
+                "discordServer": "",
+                "twitch_stream_id": "",
+                "discord_message_id": ""
+            },
+            {
+                "channelName": "ironmonarque",
+                "discordServer": "",
+                "twitch_stream_id": "",
+                "discord_message_id": ""
+            }
+        ]
+    }
+}

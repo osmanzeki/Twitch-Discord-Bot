@@ -1,3 +1,7 @@
+# Fork Info
+
+Simple fork to personalize feature-set and use TypeScript as the main language.
+
 # Twitch Discord Bot
 This Discord bot will automatically send a message and tag the assigned role whenever a streamer went live.
 The notifications will update every 10 minutes(default) while the streamer is live.

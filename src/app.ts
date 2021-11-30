@@ -257,7 +257,7 @@ export class App {
                 },
                 {
                     name: 'Twitch:',
-                    value: `[Watch stream](https://www.twitch.tv/${streamData.user_login})`,
+                    value: `[Watch the Stream](https://www.twitch.tv/${streamData.user_login})`,
                 },
             ];
 
@@ -265,7 +265,7 @@ export class App {
             if (channel.discordServer) {
                 embedFields.push({
                     name: 'Discord Server:',
-                    value: `[Join here](${channel.discordServer})`,
+                    value: `[Join the Discord](${channel.discordServer})`,
                 });
             }
 

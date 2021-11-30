@@ -1,31 +1,31 @@
-interface DiscordConfig {
+export interface DiscordConfig {
     serverId: string;
     token: string;
     channelId: string;
     roleId: string;
 }
 
-interface TwitchConfigChannel {
+export interface TwitchConfigChannel {
     channelName: string;
     twitchStreamId: string;
     discordServer: string;
     discordMessageId: string;
 }
 
-interface TwitchConfig {
+export interface TwitchConfig {
     clientId: string;
     secret: string;
     authToken: string;
     channels: Array<TwitchConfigChannel>;
 }
 
-interface TwitchDiscordBotConfig {
+export interface TwitchDiscordBotConfig {
     cron: string;
     discord: DiscordConfig;
     twitch: TwitchConfig;
 }
 
-interface TwitchApiChannelData {
+export interface TwitchApiChannelData {
     broadcaster_language: string;
     broadcaster_login: string;
     display_name: string;
@@ -38,7 +38,7 @@ interface TwitchApiChannelData {
     title: string;
 }
 
-interface TwitchApiStreamData {
+export interface TwitchApiStreamData {
     game_id: string;
     game_name: string;
     id: string;
@@ -54,13 +54,13 @@ interface TwitchApiStreamData {
     viewer_count: number;
 }
 
-interface TwitchApiAuthResponse {
+export interface TwitchApiAuthResponse {
     access_token: string;
     expires_in: number;
     token_type: string;
 }
 
-interface TwitchApiPaginatedData<T> {
+export interface TwitchApiPaginatedData<T> {
     data: T[];
     pagination: any;
 }

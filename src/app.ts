@@ -1,9 +1,43 @@
+//-----------------------------------------------------------------
+// Decorator Metadata
+//-----------------------------------------------------------------
+
+import 'reflect-metadata';
+
+//-----------------------------------------------------------------
+// External Dependencies
+//-----------------------------------------------------------------
+
 import { readFileSync, writeFileSync } from 'fs';
 import { CronJob } from 'cron';
 import { Client as DiscordClient } from 'discordx';
 import { Intents } from 'discord.js';
 import axios from 'axios';
-import { exit } from 'process';
+
+//-----------------------------------------------------------------
+// Internal Dependencies
+//-----------------------------------------------------------------
+
+import { DiscordBot } from './bot';
+
+//-----------------------------------------------------------------
+// Types
+//-----------------------------------------------------------------
+
+import {
+    TwitchApiAuthResponse,
+    TwitchApiChannelData,
+    TwitchApiStreamData,
+    TwitchApiPaginatedData,
+    TwitchConfigChannel,
+    DiscordConfig,
+    TwitchConfig,
+    TwitchDiscordBotConfig,
+} from './types';
+
+//-----------------------------------------------------------------
+// Module
+//-----------------------------------------------------------------
 
 export class App {
     //-----------------------------------------------------------------
@@ -34,7 +68,7 @@ export class App {
     // Lifecycle
     //-----------------------------------------------------------------
 
-    public init() {
+    public async init() {
         // Initialize Discord client
         this.discordClient = new DiscordClient({
             intents: [
@@ -43,6 +77,7 @@ export class App {
                 // Intents.FLAGS.GUILD_MEMBERS,
             ],
             silent: false,
+            botGuilds: [this.config.discord.serverId],
         });
 
         // Attach Discord client events
@@ -51,11 +86,12 @@ export class App {
 
             // Init bot commands
             await this.discordClient.clearApplicationCommands();
+            await this.discordClient.clearApplicationCommands(this.config.discord.serverId);
             await this.discordClient.initApplicationCommands();
             await this.discordClient.initApplicationPermissions();
 
             // Update the authorization key on startup
-            this.refreshTwithAuthConfig();
+            this.refreshTwitchAuthConfig();
 
             // Initialize the cron jobs
             this.initJobs();
@@ -83,13 +119,13 @@ export class App {
     private initJobs() {
         this.checkForStreamsJob = new CronJob(
             this.config.cron,
-            async () => await this.checkForStreams()
+            async () => this.checkForStreams()
         );
 
         // Update the authorization key every hour
         this.updateAuthJob = new CronJob(
             '0 * * * *',
-            async () => await this.refreshTwithAuthConfig()
+            async () => this.refreshTwitchAuthConfig()
         );
     }
 
@@ -99,7 +135,7 @@ export class App {
     }
 
     // Get a new authorization key and update the config
-    private async refreshTwithAuthConfig() {
+    private async refreshTwitchAuthConfig() {
         try {
             // Get the auth key
             const authKey = await this.getTwitchAccessToken(
@@ -276,9 +312,9 @@ export class App {
                 url: `https://www.twitch.tv/${streamData.user_login}`,
                 color: 6570404,
                 fields: embedFields,
-                footer: {
-                    text: streamData.started_at,
-                },
+                // footer: {
+                //     text: `Stream started at: ${new Date(streamData.started_at)}`,
+                // },
                 image: {
                     url: `https://static-cdn.jtvnw.net/previews-ttv/live_user_${
                         streamData.user_login
@@ -287,6 +323,7 @@ export class App {
                 thumbnail: {
                     url: `${channelData.thumbnail_url}`,
                 },
+                // timestamp: new Date(),
             };
 
             // Get the assigned channel
@@ -296,10 +333,22 @@ export class App {
             const sendChannel: any = guildChannel.channels.cache.get(this.config.discord.channelId);
 
             if (channel.twitchStreamId == streamData.id) {
-                let msg = await sendChannel.messages.fetch(channel.discordMessageId);
-
                 // Update the title, game, viewer_count and the thumbnail
-                msg.edit({ embed: sendEmbed });
+                try {
+                    console.log('Updating stream notification message');
+
+                    let msg = await sendChannel.messages.fetch(channel.discordMessageId);
+                    if (msg) {
+                        await msg.edit({ embeds: [sendEmbed] });
+                    }
+                } catch (err) {
+                    console.log(
+                        'The stream notification message seems to have been deleted. It will be reposted on the next notification cycle.'
+                    );
+
+                    // Empty the saved stream ID so that we can repost the message on the next run
+                    this.config.twitch.channels[channelIndex].twitchStreamId = '';
+                }
             } else {
                 // This is the message when a streamer goes live. It will tag the assigned role
                 let msg = await sendChannel.send({ embeds: [sendEmbed] });

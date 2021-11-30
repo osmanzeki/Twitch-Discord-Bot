@@ -1,5 +1,5 @@
 {
-    "cron": "* * * * *",
+    "cron": "*/5 * * * *",
     "discord": {
         "serverId": "",
         "token": "",

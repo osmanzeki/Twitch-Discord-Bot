@@ -1,4 +1,9 @@
 import { App } from './app';
 
-var app = new App();
-app.init();
+const start = async () => {
+    const app = new App();
+    await app.init();
+};
+
+// Start the application
+start();

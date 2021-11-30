@@ -8,7 +8,7 @@ enum TextChoices {
 }
 
 @Discord()
-class DiscordBot {
+export abstract class DiscordBot {
     @Slash('hello')
     @SlashGroup('text')
     hello(

@@ -5,18 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "command": "npm start",
-            "name": "Run npm start",
+            "type": "node",
             "request": "launch",
-            "type": "node-terminal"
-        },
-        {
-            "type": "pwa-node",
-            "request": "launch",
-            "name": "Launch Program",
-            "skipFiles": ["<node_internals>/**"],
-            "program": "${workspaceFolder}/dist/app.js",
-            "runtimeArgs": ["--preserve-symlinks"]
+            "name": "Debug bot",
+            "protocol": "inspector",
+            "args": ["${workspaceRoot}/src/index.ts"],
+            "cwd": "${workspaceRoot}",
+            "runtimeArgs": ["--preserve-symlinks", "-r", "ts-node/register"],
+            "internalConsoleOptions": "openOnSessionStart"
         }
     ]
 }

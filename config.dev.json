@@ -1,10 +1,10 @@
 {
-    "cron": "*/1 * * * *",
+    "cron": "* * * * *",
     "discord": {
         "serverId": "",
         "token": "",
-        "channelID": "",
-        "roleID": ""
+        "channelId": "",
+        "roleId": ""
     },
     "twitch": {
         "clientId": "",
@@ -12,22 +12,22 @@
         "authToken": "",
         "channels": [
             {
-                "channelName": "electrimess",
+                "channelName": "ozeki_san",
+                "twitchStreamId": "",
                 "discordServer": "",
-                "twitch_stream_id": "",
-                "discord_message_id": ""
+                "discordMessageId": ""
             },
             {
-                "channelName": "ozeki_san",
+                "channelName": "electricmess",
+                "twitchStreamId": "",
                 "discordServer": "",
-                "twitch_stream_id": "",
-                "discord_message_id": ""
+                "discordMessageId": ""
             },
             {
                 "channelName": "ironmonarque",
+                "twitchStreamId": "",
                 "discordServer": "",
-                "twitch_stream_id": "",
-                "discord_message_id": ""
+                "discordMessageId": ""
             }
         ]
     }

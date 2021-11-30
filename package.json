@@ -5,11 +5,12 @@
     "main": "dist/index.js",
     "scripts": {
         "start": "tsc && node dist/index.js",
+        "build": "tsc",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Siddhartt/Twitch-Discord-Notifyer.git"
+        "url": "git+https://github.com/osmanzeki/Twitch-Discord-Bot.git"
     },
     "keywords": [
         "twitch",
@@ -20,12 +21,12 @@
         "stream",
         "live"
     ],
-    "author": "Siddhart G.",
+    "author": "Osman Zeki",
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/Siddhartt/Twitch-Discord-Notifyer/issues"
+        "url": "https://github.com/osmanzeki/Twitch-Discord-Bot/issues"
     },
-    "homepage": "https://github.com/Siddhartt/Twitch-Discord-Notifyer#readme",
+    "homepage": "https://github.com/osmanzeki/Twitch-Discord-Bot#readme",
     "dependencies": {
         "axios": "^0.24.0",
         "cron": "^1.8.2",

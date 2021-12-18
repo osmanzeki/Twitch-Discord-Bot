@@ -5,6 +5,9 @@ Based on the work of `Siddhartt`. Refactored the codebase for a slighlty more OO
 # To-Do
 
 - [ ] Replace `config.json` with Environment Variables (dotenv) ?
+- [ ] Replace watched Twitch channels with a local sqlite db ?
+- [ ] Add proper `Permission` for the Twitch commands (only allow server owners/roles/admins to run this command) ?
+- [ ] Add all Discord slash commands into a single namespace (/fail twitch addchannel)
 
 # Twitch Discord Bot
 

@@ -28,6 +28,12 @@
                 "twitchStreamId": "",
                 "discordServer": "",
                 "discordMessageId": ""
+            },
+            {
+                "channelName": "dbiggestboss",
+                "discordMessageId": "",
+                "discordServer": "",
+                "twitchStreamId": ""
             }
         ]
     }

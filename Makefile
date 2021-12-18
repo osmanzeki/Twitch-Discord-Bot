@@ -58,11 +58,11 @@ remove-volumes:
 
 watch:
 	$(info Make: Starting frontend watcher process.)
-	(npm i && npm start)
+	(npm i && npm run watch)
 
 prod:
 	$(info Make: Compiling frontend assets in production mode.)
-	(npm i && npm build)
+	(npm i && npm run build)
 
 restart:
 	$(info Make: Restarting containers.)

@@ -10,15 +10,14 @@ import 'reflect-metadata';
 
 import { readFileSync, writeFileSync } from 'fs';
 import { CronJob } from 'cron';
-import { Client as DiscordClient } from 'discordx';
 import { Intents } from 'discord.js';
+import { Client as DiscordClient } from 'discordx';
+import { importx } from '@discordx/importer';
 import axios from 'axios';
 
 //-----------------------------------------------------------------
 // Internal Dependencies
 //-----------------------------------------------------------------
-
-import { DiscordBot } from './bot';
 
 //-----------------------------------------------------------------
 // Types
@@ -71,24 +70,30 @@ export class App {
     public async init() {
         // Initialize Discord client
         this.discordClient = new DiscordClient({
+            botGuilds: [(client) => client.guilds.cache.map((guild) => guild.id)],
             intents: [
                 Intents.FLAGS.GUILDS,
+                Intents.FLAGS.GUILD_MEMBERS,
                 Intents.FLAGS.GUILD_MESSAGES,
-                // Intents.FLAGS.GUILD_MEMBERS,
+                Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+                Intents.FLAGS.GUILD_VOICE_STATES,
             ],
-            silent: false,
-            botGuilds: [this.config.discord.serverId],
         });
 
         // Attach Discord client events
-        this.discordClient.on('ready', async () => {
+        this.discordClient.once('ready', async () => {
             console.log(`Logged in as ${this.discordClient.user.tag}!`);
+
+            // Make sure all guilds are in cache
+            await this.discordClient.guilds.fetch();
 
             // Init bot commands
             await this.discordClient.clearApplicationCommands();
-            await this.discordClient.clearApplicationCommands(this.config.discord.serverId);
-            await this.discordClient.initApplicationCommands();
-            await this.discordClient.initApplicationPermissions();
+            await this.discordClient.initApplicationCommands({
+                global: { log: true },
+                guild: { log: true },
+            });
+            await this.discordClient.initApplicationPermissions(true);
 
             // Update the authorization key on startup
             this.refreshTwitchAuthConfig();
@@ -102,6 +107,8 @@ export class App {
 
             // Do an immediate check for streams on the first launch
             this.checkForStreams();
+
+            console.log('>> Bot started');
         });
 
         this.discordClient.on('interactionCreate', (interaction) => {
@@ -109,7 +116,8 @@ export class App {
         });
 
         // Log the Discord bot in
-        this.discordClient.login(this.config.discord.token);
+        await importx(__dirname + '/{events,commands}/**/*.{ts,js}');
+        await this.discordClient.login(this.config.discord.token);
     }
 
     //-----------------------------------------------------------------
@@ -117,16 +125,10 @@ export class App {
     //-----------------------------------------------------------------
 
     private initJobs() {
-        this.checkForStreamsJob = new CronJob(
-            this.config.cron,
-            async () => this.checkForStreams()
-        );
+        this.checkForStreamsJob = new CronJob(this.config.cron, async () => this.checkForStreams());
 
         // Update the authorization key every hour
-        this.updateAuthJob = new CronJob(
-            '0 * * * *',
-            async () => this.refreshTwitchAuthConfig()
-        );
+        this.updateAuthJob = new CronJob('0 * * * *', async () => this.refreshTwitchAuthConfig());
     }
 
     private updateConfigOnDisk() {

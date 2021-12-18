@@ -2,6 +2,10 @@
 
 Based on the work of `Siddhartt`. Refactored the codebase for a slighlty more OOP structure as well as usage of TypeScript as the main language for the bot.
 
+# To-Do
+
+- [ ] Replace `config.json` with Environment Variables (dotenv) ?
+
 # Twitch Discord Bot
 
 This Discord bot will automatically send a message and tag the assigned role whenever a streamer went live.

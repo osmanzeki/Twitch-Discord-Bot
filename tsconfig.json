@@ -1,12 +1,19 @@
 {
     "compilerOptions": {
-        "experimentalDecorators": true,
-        "module": "CommonJS",
-        "esModuleInterop": true,
-        "target": "es2017",
-        "moduleResolution": "Node",
+        "noImplicitAny": true,
         "sourceMap": true,
-        "outDir": "dist"
+        "strict": false,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "declaration": false,
+        "esModuleInterop": true,
+        "importHelpers": true,
+        "forceConsistentCasingInFileNames": true,
+        "module": "CommonJS",
+        "target": "ES2021",
+        "outDir": "dist",
+        "lib": ["ES2021", "esnext.asynciterable"],
+        "moduleResolution": "node"
     },
-    "lib": ["es2015", "es2017"]
+    "exclude": ["node_modules"]
 }

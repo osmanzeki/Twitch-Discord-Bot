@@ -3,6 +3,7 @@
     "version": "1.0.0",
     "description": "Notify your community whenever you go live!",
     "main": "dist/index.js",
+    "type": "commonjs",
     "scripts": {
         "start": "tsc && node dist/index.js",
         "build": "tsc",

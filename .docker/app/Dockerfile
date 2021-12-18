@@ -1,6 +1,7 @@
-FROM node:16
+FROM node:lts-gallium
 
 # Create app directory
+RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 # Install app dependencies
@@ -8,14 +9,18 @@ WORKDIR /usr/src/app
 # where available (npm@5+)
 COPY package*.json ./
 
+# If you are running this in dev-only
 # RUN npm install
 
 # If you are building your code for production
-RUN npm run build && npm ci --only=production
+RUN npm ci
 
 # Bundle app source
 COPY . .
 
+# Transpile the app and remove dev dependencies
+RUN npm run build
+
 EXPOSE 8080
 
-CMD [ "node", "dist/app.js" ]
+CMD [ "node", "dist/index.js" ]

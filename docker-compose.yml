@@ -1,0 +1,86 @@
+version: "3.1"
+
+#------------------------------------------------------------------------
+# Services
+#------------------------------------------------------------------------
+
+services:
+    #------------------------------------------------------------------------
+    # Backend
+    #------------------------------------------------------------------------
+
+    # db:
+    #     container_name: bot_db
+    #     image: mariadb:10.5.9
+    #     volumes:
+    #         - ./db/bot-db-data:/var/lib/mysql:rw,delegated
+    #         # - bot-db-data:/var/lib/mysql
+    #     ports:
+    #         - "5002:3306"
+    #     restart: unless-stopped
+    #     environment:
+    #         MYSQL_ROOT_PASSWORD: secret
+    #     networks:
+    #         - internal
+
+    # api:
+    #     container_name: ranger_api
+    #     build:
+    #         context: .
+    #         dockerfile: .docker/api/Dockerfile
+    #     image: registry.gitlab.com/ozeki/###/###
+    #     volumes:
+    #         - "./api:/var/www/html:rw"
+    #         - "/usr/src/app/vendor:rw"
+    #     ports:
+    #         - "5001:80"
+    #     networks:
+    #         - internal
+    #     links:
+    #         - db
+    #     logging:
+    #         options:
+    #             max-size: 100k
+    #             max-file: "3"
+
+    #------------------------------------------------------------------------
+    # Application
+    #------------------------------------------------------------------------
+
+    app:
+        container_name: bot_app
+        build:
+            context: .
+            dockerfile: .docker/app/Dockerfile
+        # image: registry.gitlab.com/ozeki/###/###
+        # volumes:
+        #     - ".:/usr/src/app"
+        #     - "/usr/src/app/node_modules"
+        ports:
+            - "5000:8080"
+        environment:
+            PORT: 8080
+        networks:
+            - internal
+        # links:
+        #     - api
+        logging:
+            options:
+                max-size: 100k
+                max-file: "3"
+
+#------------------------------------------------------------------------
+# Volumes
+#------------------------------------------------------------------------
+
+# volumes:
+#   bot-db-data:
+#     driver: local
+
+#------------------------------------------------------------------------
+# Networks
+#------------------------------------------------------------------------
+
+networks:
+    internal:
+        driver: bridge

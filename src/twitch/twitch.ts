@@ -1,52 +1,19 @@
-//-----------------------------------------------------------------
-// External Dependencies
-//-----------------------------------------------------------------
-
 import axios from 'axios';
 import { CronJob } from 'cron';
-
-//-----------------------------------------------------------------
-// Internal Dependencies
-//-----------------------------------------------------------------
-
 import { configManager } from '../config';
 import { discordManager } from '../discord/discord';
-
-//-----------------------------------------------------------------
-// Types
-//-----------------------------------------------------------------
 
 import {
     TwitchApiAuthResponse,
     TwitchApiChannelData,
-    TwitchApiStreamData,
     TwitchApiPaginatedData,
-    TwitchConfigChannel,
-    DiscordConfig,
-    TwitchConfig,
-    TwitchDiscordBotConfig,
+    TwitchApiStreamData,
 } from '../types';
 
-//-----------------------------------------------------------------
-// Module
-//-----------------------------------------------------------------
-
 class TwitchManager {
-    //-----------------------------------------------------------------
-    // Properties
-    //-----------------------------------------------------------------
-
     // Cronjobs
     private checkForStreamsJob: CronJob;
     private updateAuthJob: CronJob;
-
-    //-----------------------------------------------------------------
-    // Accessors
-    //-----------------------------------------------------------------
-
-    //-----------------------------------------------------------------
-    // Lifecycle
-    //-----------------------------------------------------------------
 
     constructor() {}
 
@@ -57,10 +24,6 @@ class TwitchManager {
         // Start cronjobs
         this.initJobs();
     }
-
-    //-----------------------------------------------------------------
-    // Methods
-    //-----------------------------------------------------------------
 
     private initJobs() {
         this.checkForStreamsJob = new CronJob(configManager.config.cron, async () =>

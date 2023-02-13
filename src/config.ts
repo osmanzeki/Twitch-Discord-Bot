@@ -1,42 +1,8 @@
-//-----------------------------------------------------------------
-// External Dependencies
-//-----------------------------------------------------------------
-
 import { readFileSync, writeFileSync } from 'fs';
-
-//-----------------------------------------------------------------
-// Internal Dependencies
-//-----------------------------------------------------------------
-
-//-----------------------------------------------------------------
-// Types
-//-----------------------------------------------------------------
-
-import {
-    TwitchApiAuthResponse,
-    TwitchApiChannelData,
-    TwitchApiStreamData,
-    TwitchApiPaginatedData,
-    TwitchConfigChannel,
-    DiscordConfig,
-    TwitchConfig,
-    TwitchDiscordBotConfig,
-} from './types';
-
-//-----------------------------------------------------------------
-// Module
-//-----------------------------------------------------------------
+import { TwitchDiscordBotConfig } from './types';
 
 class ConfigManager {
-    //-----------------------------------------------------------------
-    // Properties
-    //-----------------------------------------------------------------
-
     private cachedConfig: TwitchDiscordBotConfig = null;
-
-    //-----------------------------------------------------------------
-    // Accessors
-    //-----------------------------------------------------------------
 
     public get config() {
         if (this.cachedConfig === null) {
@@ -47,15 +13,7 @@ class ConfigManager {
         return this.cachedConfig;
     }
 
-    //-----------------------------------------------------------------
-    // Lifecycle
-    //-----------------------------------------------------------------
-
     constructor() {}
-
-    //-----------------------------------------------------------------
-    // Methods
-    //-----------------------------------------------------------------
 
     public updateConfigOnDisk() {
         // Save config with new data
@@ -115,7 +73,7 @@ class ConfigManager {
         // Save config with new data, if we have made changes in memory
         if (isDirty) {
             this.updateConfigOnDisk();
-            
+
             return true;
         } else {
             return false;

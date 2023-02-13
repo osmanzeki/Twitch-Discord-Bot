@@ -1,51 +1,14 @@
-//-----------------------------------------------------------------
-// External Dependencies
-//-----------------------------------------------------------------
-
+import { importx } from '@discordx/importer';
 import { Intents } from 'discord.js';
 import { Client as DiscordClient } from 'discordx';
-import { importx } from '@discordx/importer';
-
-//-----------------------------------------------------------------
-// Internal Dependencies
-//-----------------------------------------------------------------
 
 import { configManager } from '../config';
 import { twitchManager } from '../twitch/twitch';
 
-//-----------------------------------------------------------------
-// Types
-//-----------------------------------------------------------------
-
-import {
-    TwitchApiAuthResponse,
-    TwitchApiChannelData,
-    TwitchApiStreamData,
-    TwitchApiPaginatedData,
-    TwitchConfigChannel,
-    DiscordConfig,
-    TwitchConfig,
-    TwitchDiscordBotConfig,
-} from '../types';
-
-//-----------------------------------------------------------------
-// Module
-//-----------------------------------------------------------------
+import { TwitchApiChannelData, TwitchApiStreamData } from '../types';
 
 class DiscordManager {
-    //-----------------------------------------------------------------
-    // Properties
-    //-----------------------------------------------------------------
-
     private client: DiscordClient;
-
-    //-----------------------------------------------------------------
-    // Accessors
-    //-----------------------------------------------------------------
-
-    //-----------------------------------------------------------------
-    // Lifecycle
-    //-----------------------------------------------------------------
 
     constructor() {}
 
@@ -93,10 +56,6 @@ class DiscordManager {
         // Log the Discord bot in
         await this.client.login(configManager.config.discord.token);
     }
-
-    //-----------------------------------------------------------------
-    // Methods
-    //-----------------------------------------------------------------
 
     public async sendOrUpdateMessage(
         channelIndex: number,

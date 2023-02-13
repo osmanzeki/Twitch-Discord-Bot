@@ -1,20 +1,5 @@
-//-----------------------------------------------------------------
-// External Dependencies
-//-----------------------------------------------------------------
-
-import { CommandInteraction, GuildMember, Role, User } from 'discord.js';
-import { Discord, Guard, Permission, Slash, SlashChoice, SlashGroup, SlashOption } from 'discordx';
-
-//-----------------------------------------------------------------
-// Internal Dependencies
-//-----------------------------------------------------------------
-
-import { configManager } from '../../config';
-import { twitchManager } from '../../twitch/twitch';
-
-//-----------------------------------------------------------------
-// Module
-//-----------------------------------------------------------------
+import { CommandInteraction, GuildMember, User } from 'discord.js';
+import { Discord, Slash, SlashGroup, SlashOption } from 'discordx';
 
 @Discord()
 @SlashGroup('misc', 'Silly commands', {
